@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qss/darkblack/add_bottom.png</file>
+        <file>qss/darkblack/add_left.png</file>
+        <file>qss/darkblack/add_right.png</file>
+        <file>qss/darkblack/add_top.png</file>
+        <file>qss/darkblack/branch_close.png</file>
+        <file>qss/darkblack/branch_open.png</file>
+        <file>qss/darkblack/calendar_nextmonth.png</file>
+        <file>qss/darkblack/calendar_prevmonth.png</file>
+        <file>qss/darkblack/checkbox_checked.png</file>
+        <file>qss/darkblack/checkbox_checked_disable.png</file>
+        <file>qss/darkblack/checkbox_parcial.png</file>
+        <file>qss/darkblack/checkbox_parcial_disable.png</file>
+        <file>qss/darkblack/checkbox_unchecked.png</file>
+        <file>qss/darkblack/checkbox_unchecked_disable.png</file>
+        <file>qss/darkblack/radiobutton_checked.png</file>
+        <file>qss/darkblack/radiobutton_checked_disable.png</file>
+        <file>qss/darkblack/radiobutton_unchecked.png</file>
+        <file>qss/darkblack/radiobutton_unchecked_disable.png</file>
+        <file>app.ico</file>
+    </qresource>
+</RCC>
