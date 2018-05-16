@@ -102,7 +102,7 @@ void initialization(int func_num, int dimension) {
 	}
 
 	/* Load Matrix M*/
-	sprintf(FileName, "C:/Users/Yang/Desktop/build-SingleObjectiveOpt-Desktop_Qt_5_10_0_MinGW_32bit-Debug/input_data/M_%d_D%d.txt", func_num, nx);
+	sprintf(FileName, "input_data/M_%d_D%d.txt", func_num, nx);
 
 	infile.open(FileName);
 	//std::cout << FileName << "\n";
@@ -199,6 +199,7 @@ void initialization(int func_num, int dimension) {
 		for (i = 0; i<nx; i++)
 		{
 			infile >> SS[i];
+			cout << "Shuffle->" << SS[i];
 			//fscanf(fpt, "%d", &SS[i]);
 		}
 		infile.close();

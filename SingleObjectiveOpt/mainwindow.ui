@@ -24,8 +24,8 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>1200</width>
-    <height>700</height>
+    <width>16777215</width>
+    <height>16777215</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -723,7 +723,9 @@ border-color:#242629;
 /*HighColor:#00BB9E*/
 </string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout"/>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>

@@ -9,7 +9,7 @@ class Algorithm : public QObject
 {
     Q_OBJECT
 public:
-    double result;//存储结果
+    //double result;//存储结果
 
     static void dataInitialization(int func_num, int dimension);
 
@@ -25,9 +25,7 @@ public:
 
     void resetParameters(std::vector<std::pair<QString,double> > &parm);//设置参数
 
-    virtual void initial(){
-        return;
-    }
+    virtual void initial();
 
     virtual void process(){
         return;
@@ -49,7 +47,7 @@ protected:
     std::vector<std::vector<std::vector<double> > > group;//群体
     std::vector<double> currentValue;
     std::pair<int,double> bestValue;
-    double minY,maxY;
+    double minY,maxY,avgValue;
 
     void calcCurrentValue(const std::vector<std::vector<double> > &target);
 

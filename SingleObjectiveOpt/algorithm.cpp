@@ -19,6 +19,30 @@ void Algorithm::resetParameters(std::vector<std::pair<QString, double> > &parm)
     }
 }
 
+void Algorithm::initial()
+{
+    //初始化
+    minY = DBL_MAX;
+    maxY = -11000000;
+    srand((unsigned)time(NULL));
+    int population = static_cast<int>(getParameters(tr("population")));//种群大小
+    int dimension = static_cast<int>(getParameters(tr("dimension")));//维度
+    int generation = static_cast<int>(getParameters(tr("generation")));//迭代次数
+    double lowbounding = getParameters(tr("lowbounding"));
+    double upbounding = getParameters(tr("upbounding"));
+    group.clear();
+    group.resize(generation,std::vector<std::vector<double> >(population,
+                            std::vector<double>(dimension,0.0)));
+    for (int i = 0; i < population; i++) {
+        for (int j = 0; j < dimension; j++) {
+            group[0][i][j] = lowbounding +
+                    (double)(rand() / (double)RAND_MAX) * (upbounding - lowbounding);
+        }
+    }
+    currentValue.clear();
+    currentValue.resize(population,0.0);
+}
+
 double Algorithm::getResult(std::vector<double> ans)
 {
     int dimension = static_cast<int>(getParameters(tr("dimension")));
@@ -30,55 +54,44 @@ void Algorithm::calcCurrentValue(const std::vector<std::vector<double> > &target
 {
     minY = DBL_MAX;
     maxY = -11000000;
-    for(auto x = 0;x < target.size();++x){
-        currentValue[x] = getResult(target[x]);
-        if(minY > currentValue[x]){
-           minY = currentValue[x];
-           bestValue.first = x;
-           bestValue.second = minY;
-        }
+    avgValue = 0;
+    int dimension = static_cast<int>(getParameters(tr("dimension")));
+    int func_num = static_cast<int>(getParameters(tr("function")));//函数编号
+    for(uint x = 0;x < target.size();++x){
+        currentValue[x] = functions(target[x],func_num,dimension);
+        avgValue += currentValue[x];
+        minY = std::min(minY,currentValue[x]);
         maxY = std::max(maxY,currentValue[x]);
     }
+    avgValue /= target.size();
 }
 
 //以下为粒子群算法
 void PSOAlgorithm::initial()
 {
+    Algorithm::initial();
     int population = static_cast<int>(getParameters(tr("population")));//种群大小
     int dimension = static_cast<int>(getParameters(tr("dimension")));//维度
-    int generation = static_cast<int>(getParameters(tr("generation")));//迭代次数
-    double lowbounding = getParameters(tr("lowbounding"));
-    double upbounding = getParameters(tr("upbounding"));
+    gBest.clear();
+    pBest.clear();
+    velocity.clear();
     gBest.resize(dimension, 0.0);
-    currentValue.resize(population,0.0);
     pBest.resize(population,std::vector<double>(dimension, 0.0));
-    minY = DBL_MAX;
-    maxY = -11000000;
     velocity.resize(population,std::vector<double>(dimension,0.0));
-
-    srand((unsigned)time(NULL));
-    //初始化
-    group.resize(generation,std::vector<std::vector<double> >(population,
-                            std::vector<double>(dimension,0.0)));
-    for (int i = 0; i < population; i++) {
-        for (int j = 0; j < dimension; j++) {
-            group[0][i][j] = lowbounding +
-                    (double)(rand() / (double)RAND_MAX) * (upbounding - lowbounding);
-        }
-    }
+    bestValue.first = 0;
+    bestValue.second = DBL_MAX;
 }
 
 void PSOAlgorithm::process()
 {
-    //initial();//初始化
     curAndgloBest(0);//计算初始代最优解
     int generation = static_cast<int>(getParameters(tr("generation")));//迭代次数
     for (auto current = 1; current < generation; ++current) {
         update(current);
         curAndgloBest(current);
-        calcCurrentValue(group[current]);
+        calcCurrentValue(pBest);
         if(generation <= 100 || (generation > 100 && generation % 2 == 0))
-            emit frameUpdate(getResult(gBest),currentValue,minY,maxY,current,generation,bestValue);
+            emit frameUpdate(avgValue,currentValue,minY,maxY,current,generation,bestValue);
     }
     emit processFinished(getResult(gBest));
 }
@@ -103,7 +116,7 @@ void PSOAlgorithm::update(int curGeneration)
                     +
                     c2*(double)(rand()/(double)RAND_MAX)*
                     (gBest[j] - group[curGeneration - 1][i][j]);
-            //if(velocity[i][j] >= 200)velocity[i][j] = 100;
+            if(velocity[i][j] > 200)velocity[i][j] = 200;
             //位置更新
             group[curGeneration][i][j] = group[curGeneration-1][i][j] + velocity[i][j];
             //边界处理
@@ -124,33 +137,21 @@ void PSOAlgorithm::curAndgloBest(int curGeneration)
             double value = functions(group[curGeneration][i], func_num, dimension);
             if (value < functions(pBest[i], func_num, dimension))
                 pBest[i] = group[curGeneration][i];
-            if (functions(pBest[i], func_num, dimension) < functions(gBest, func_num, dimension))
+            if (functions(pBest[i], func_num, dimension) < functions(gBest, func_num, dimension)){
                 gBest = pBest[i];
+                bestValue.first = i;
+                bestValue.second = functions(pBest[i], func_num, dimension);
+            }
     }
 }
 
 //以下为差分进化算法
 void DEAlgorithm::initial()
 {
-    srand((unsigned)time(NULL));
-    int population = static_cast<int>(getParameters(tr("population")));//种群大小
+    Algorithm::initial();
     int dimension = static_cast<int>(getParameters(tr("dimension")));//维度
-    int generation = static_cast<int>(getParameters(tr("generation")));//迭代次数
-    double lowbounding = getParameters(tr("lowbounding"));
-    double upbounding = getParameters(tr("upbounding"));
-    currentValue.resize(population,0.0);
-    minY = DBL_MAX;
-    maxY = -11000000;
-    group.resize(generation,std::vector<std::vector<double> >(population,//初始化
-                            std::vector<double>(dimension,0.0)));
+    solution.clear();
     solution.resize(dimension,0.0);
-    srand((unsigned)time(NULL));
-    for (int i = 0; i < population; i++) {
-        for (int j = 0; j < dimension; j++) {
-            group[0][i][j] = lowbounding +
-                    (double)(rand() / (double)RAND_MAX) * (upbounding - lowbounding);
-        }
-    }
 }
 
 void DEAlgorithm::process()
@@ -203,19 +204,23 @@ void DEAlgorithm::process()
                 bestSolution =
                         bestSolution < functions(group[t][i],func_num,dimension)
                         ? bestSolution : functions(group[t][i],func_num,dimension);
-                if(bestSolution < functions(group[t][i],func_num,dimension))
+                if(bestSolution < functions(group[t][i],func_num,dimension)){
+                    bestValue.first = i;
+                    bestValue.second = bestSolution;
                     solution = group[t][i];
+                }
             }
             else{
                 group[t][i] = group[t-1][i];
             }
         }
+        //计算当前种群的全部值
         calcCurrentValue(group[t]);
         if(generation > 300 && generation % 2 == 0){
-            emit frameUpdate(getResult(solution),currentValue,minY,maxY,t,generation,bestValue);
+            emit frameUpdate(avgValue,currentValue,minY,maxY,t,generation,bestValue);
         }
         else{
-            emit frameUpdate(getResult(solution),currentValue,minY,maxY,t,generation,bestValue);
+            emit frameUpdate(avgValue,currentValue,minY,maxY,t,generation,bestValue);
         }
     }
     emit processFinished(getResult(solution));

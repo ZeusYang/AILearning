@@ -21,8 +21,6 @@ PSOParameters::PSOParameters(QWidget *parent) :
     ui->LineEditDown_D->setValidator(new QDoubleValidator());
 
     ui->lineEditResult->setReadOnly(true);
-    ui->textEdit->setReadOnly(true);
-    ui->textEdit_2->setReadOnly(true);
 }
 
 PSOParameters::~PSOParameters()
