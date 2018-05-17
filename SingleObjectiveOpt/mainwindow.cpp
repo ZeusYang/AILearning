@@ -197,7 +197,7 @@ void MainWindow::createChart()
     chart->addSeries(new QScatterSeries(chart));
     chart->addSeries(bestSol); //将bestSol 添加至图表中
     chart->createDefaultAxes();  // 基于已添加到图表的 series 来创轴
-    chart->setTitle(tr("种群个体适应值"));  // 设置图表的标题
+    chart->setTitle(tr("种群个体函数值"));  // 设置图表的标题
     // 构建 QChartView，并设置抗锯齿、标题、大小
     chartView = new QChartView(this);
     chartView->setChart(chart);
