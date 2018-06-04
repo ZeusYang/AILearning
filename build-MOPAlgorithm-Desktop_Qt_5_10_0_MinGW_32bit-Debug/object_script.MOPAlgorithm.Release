@@ -1,0 +1,12 @@
+INPUT(
+./release\main.o
+./release\MOP_Algorithm.o
+./release\NSGA_II_Algorithm.o
+./release\Display.o
+./release\Setting.o
+./release\MOEA_D_Algorithm.o
+./release\moc_MOP_Algorithm.o
+./release\moc_NSGA_II_Algorithm.o
+./release\moc_Display.o
+./release\moc_Setting.o
+);

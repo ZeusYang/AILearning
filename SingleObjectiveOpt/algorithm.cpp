@@ -93,7 +93,7 @@ void PSOAlgorithm::process()
         if(generation <= 100 || (generation > 100 && generation % 2 == 0))
             emit frameUpdate(avgValue,currentValue,minY,maxY,current,generation,bestValue);
     }
-    emit processFinished(getResult(gBest));
+    emit processFinished(bestValue.second);
 }
 
 void PSOAlgorithm::update(int curGeneration)
@@ -223,5 +223,5 @@ void DEAlgorithm::process()
             emit frameUpdate(avgValue,currentValue,minY,maxY,t,generation,bestValue);
         }
     }
-    emit processFinished(getResult(solution));
+    emit processFinished(bestValue.second);
 }
