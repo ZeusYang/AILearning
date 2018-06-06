@@ -1,6 +1,7 @@
 #include "Setting.h"
 #include "ui_Setting.h"
 #include <QMessageBox>
+#include "Algorithm/MOP_Algorithm.h"
 
 Setting::Setting(QWidget *parent) :
     QWidget(parent),
@@ -95,13 +96,14 @@ void Setting::on_objectComboBox_currentTextChanged(const QString &arg1)
 void Setting::on_dimensionComboBox_currentTextChanged(const QString &arg1)
 {
     if(!algorithm_nsga || !algorithm_moea)return;
-    int num = arg1.toInt();
-    if(ui->algorithmComboBox->currentText() == "NSGA-II"){
-       algorithm_nsga->setDimension(num);
-    }
-    else if(ui->algorithmComboBox->currentText() == "MOEA/D"){
-       algorithm_moea->setDimension(num);
-    }
+    problemNum = ui->dimensionComboBox->currentIndex()+1;
+//    int num = arg1.toInt();
+//    if(ui->algorithmComboBox->currentText() == "NSGA-II"){
+//       algorithm_nsga->setDimension(num);
+//    }
+//    else if(ui->algorithmComboBox->currentText() == "MOEA/D"){
+//       algorithm_moea->setDimension(num);
+//    }
 }
 
 void Setting::on_generationLineEdit_editingFinished()

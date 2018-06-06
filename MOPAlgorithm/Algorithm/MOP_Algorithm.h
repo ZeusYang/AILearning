@@ -18,10 +18,13 @@ using namespace std::placeholders;
 /*
  * multi-objects problem
  */
+
+extern int problemNum;
 class MOP_Algorithm : public QObject
 {
     Q_OBJECT
 public:
+
     bool isBegin;
     bool shouldStop;
     explicit MOP_Algorithm(QObject *parent = nullptr);

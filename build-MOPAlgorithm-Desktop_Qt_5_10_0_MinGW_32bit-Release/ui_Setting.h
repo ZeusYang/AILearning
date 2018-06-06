@@ -109,11 +109,6 @@ public:
         dimensionComboBox->addItem(QString());
         dimensionComboBox->addItem(QString());
         dimensionComboBox->addItem(QString());
-        dimensionComboBox->addItem(QString());
-        dimensionComboBox->addItem(QString());
-        dimensionComboBox->addItem(QString());
-        dimensionComboBox->addItem(QString());
-        dimensionComboBox->addItem(QString());
         dimensionComboBox->setObjectName(QStringLiteral("dimensionComboBox"));
 
         formLayout->setWidget(3, QFormLayout::FieldRole, dimensionComboBox);
@@ -182,16 +177,11 @@ public:
         objectComboBox->setItemText(0, QApplication::translate("Setting", "2", nullptr));
         objectComboBox->setItemText(1, QApplication::translate("Setting", "3", nullptr));
 
-        dimensionLabel->setText(QApplication::translate("Setting", "\345\206\263\347\255\226\345\217\230\351\207\217\347\273\264\345\272\246(&D):", nullptr));
-        dimensionComboBox->setItemText(0, QApplication::translate("Setting", "2", nullptr));
-        dimensionComboBox->setItemText(1, QApplication::translate("Setting", "3", nullptr));
-        dimensionComboBox->setItemText(2, QApplication::translate("Setting", "4", nullptr));
-        dimensionComboBox->setItemText(3, QApplication::translate("Setting", "5", nullptr));
-        dimensionComboBox->setItemText(4, QApplication::translate("Setting", "6", nullptr));
-        dimensionComboBox->setItemText(5, QApplication::translate("Setting", "7", nullptr));
-        dimensionComboBox->setItemText(6, QApplication::translate("Setting", "8", nullptr));
-        dimensionComboBox->setItemText(7, QApplication::translate("Setting", "9", nullptr));
-        dimensionComboBox->setItemText(8, QApplication::translate("Setting", "10", nullptr));
+        dimensionLabel->setText(QApplication::translate("Setting", "\346\265\213\350\257\225\345\207\275\346\225\260(&F):", nullptr));
+        dimensionComboBox->setItemText(0, QApplication::translate("Setting", "DTLZ1", nullptr));
+        dimensionComboBox->setItemText(1, QApplication::translate("Setting", "DTLZ2", nullptr));
+        dimensionComboBox->setItemText(2, QApplication::translate("Setting", "DTLZ3", nullptr));
+        dimensionComboBox->setItemText(3, QApplication::translate("Setting", "DTLZ4", nullptr));
 
         generationLabel->setText(QApplication::translate("Setting", "\350\277\255\344\273\243\346\254\241\346\225\260(&I):", nullptr));
         pushButton->setText(QApplication::translate("Setting", "\350\277\220\350\241\214", nullptr));

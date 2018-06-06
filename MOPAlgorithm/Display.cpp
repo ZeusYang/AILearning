@@ -51,6 +51,7 @@ Display::~Display()
 
 void Display::setData(const vector<QVector3D> &data)
 {
+    //qDebug() << data[0].x() << "," << data[0].y() << "," << data[0].z();
     QScatterDataArray *dataArray = new QScatterDataArray;
     dataArray->resize(data.size());
     QScatterDataItem *ptrToDataArray = &dataArray->first();
@@ -101,5 +102,5 @@ void Display::InitGraph()
     m_graph->axisX()->setRange(0,1.0);
     m_graph->axisY()->setRange(0,1.0);
     m_graph->axisZ()->setRange(0,1.0);
-    m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::MeshPoint);
+    //m_graph->seriesList().at(0)->setMesh(QAbstract3DSeries::MeshPoint);
 }

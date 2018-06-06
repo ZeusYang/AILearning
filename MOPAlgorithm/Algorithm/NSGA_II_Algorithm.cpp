@@ -253,23 +253,4 @@ void NSGA_II_Algorithm::make_new_generation_DE(vector<vector<double>> &parent,
     }
 
     return;
-    //return offspring;
-
-    //Step 2
-    vector<vector<double> > P(2 * size, vector<double>(dimension, 0));
-    for (int i = 0; i<size; i++)
-        for (int j = 0; j<dimension; j++) {
-            P[i][j] = parent[i][j];
-            P[i + size][j] = offspring[i][j];
-        }
-
-    //对父代和子代的解的优劣进行排序
-    sort(P.begin(), P.end(),
-         [=](vector<double> p,vector<double> q){
-        return Fx(p,numObjective,dimension) < Fx(q,numObjective,dimension);
-    });
-
-    for (int i = 0; i<size; i++)
-        for (int j = 0; j<dimension; j++)
-            offspring[i][j] = P[i][j];
 }
