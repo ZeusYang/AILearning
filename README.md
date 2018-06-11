@@ -19,3 +19,13 @@ NSGA-II算法与MOEA-D算法.
 ![picture](https://github.com/ZeusYang/AILearning/blob/master/MOPAlgorithm/image/1.gif)
 
 ![picture](https://github.com/ZeusYang/AILearning/blob/master/MOPAlgorithm/image/2.gif)
+
+## 2018.6.11 update
+
+### 信息安全-加密算法
+
+古典加密算法与现代对称加密算法
+
+![picture](https://github.com/ZeusYang/AILearning/blob/master/screenshoot/AES.png)
+
+![picture](https://github.com/ZeusYang/AILearning/blob/master/screenshoot/Vigenere.png)
