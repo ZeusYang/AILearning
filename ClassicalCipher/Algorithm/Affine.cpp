@@ -13,9 +13,9 @@ Affine::Affine()
 
 Affine::~Affine() {}
 
-QString Affine::EncodeMessage(const QString &message)
-{
+QString Affine::EncodeMessage(const QString &message){
     QString result;
+    // 加密
     for(auto it = message.begin();it != message.end();++it){
         if(it->isLetter()){
              result.push_back(str[(table[*it]*a+b)%26]);
@@ -25,9 +25,9 @@ QString Affine::EncodeMessage(const QString &message)
     return result;
 }
 
-QString Affine::DecodeMessage(const QString &message)
-{
+QString Affine::DecodeMessage(const QString &message){
     QString result;
+    // 解密
     for(auto it = message.begin();it != message.end();++it){
         if(it->isLetter()){
             int index =  ((table[*it]-b)*a_inver)%26;

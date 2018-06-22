@@ -256,8 +256,7 @@ std::bitset<28> Des::leftShift(std::bitset<28> target, int shift)
 }
 
 std::vector<std::bitset<48> >
-Des::GenerateCiphers(const std::bitset<64> &key)
-{
+Des::GenerateCiphers(const std::bitset<64> &key){
     std::bitset<56> realKey;
     std::bitset<28> left;
     std::bitset<28> right;
@@ -292,8 +291,7 @@ Des::GenerateCiphers(const std::bitset<64> &key)
 
 
 std::bitset<32> Des::Function_f(const std::bitset<32> &data,
-                                std::bitset<48> &subcipher)
-{
+                                std::bitset<48> &subcipher){
     //32数据扩展48
     std::bitset<48> expandData;
     for(int i = 0; i < 48; i++)

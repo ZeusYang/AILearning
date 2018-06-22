@@ -1,0 +1,13 @@
+INPUT(
+./release\main.o
+./release\Window.o
+./release\Server.o
+./release\ConnectionThread.o
+./release\ConnectionSocket.o
+./release\ClientdDB.o
+./release\MySqlQueryModel.o
+./release\moc_Window.o
+./release\moc_Server.o
+./release\moc_ConnectionThread.o
+./release\moc_ConnectionSocket.o
+);

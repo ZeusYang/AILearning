@@ -13,8 +13,7 @@ Playfair::~Playfair()
 
 }
 
-void Playfair::setKey(const QString &target)
-{
+void Playfair::setKey(const QString &target){
     //去除重复
     QString ts = target.toUpper();
     std::string tmp = ts.toStdString();
@@ -43,7 +42,6 @@ void Playfair::setKey(const QString &target)
             }
         }
     }
-
     //存到字母表
     for(int x = 0;x < 5;++x){
         for(int y = 0;y < 5;++y){
@@ -59,11 +57,10 @@ QString Playfair::EncodeMessage(const QString &message)
 {
     QString result;
     std::vector<std::pair<QChar,QChar>> record = PreProcess(message);
-    for(auto it = record.begin();it != record.end();++it)
-    {
+    // 加密
+    for(auto it = record.begin();it != record.end();++it){
         //获取坐标
         std::pair<int,int> p1,p2;
-        //qDebug() << it->first << "," << it->second;
         p1 = table[it->first];
         p2 = table[it->second];
         if(p1.first == p2.first){//同一行的处理

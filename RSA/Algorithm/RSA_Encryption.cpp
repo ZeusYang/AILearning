@@ -11,8 +11,7 @@
 RSA_Encryption::RSA_Encryption(QObject *parent)
     :QObject(parent),hasKey(false) {}
 
-void RSA_Encryption::Initial(const unsigned int &length)
-{
+void RSA_Encryption::Initial(const unsigned int &length){
     emit SendProgress(0.0);
     hasKey = true;
     srand((unsigned)time(nullptr));
@@ -32,12 +31,12 @@ void RSA_Encryption::Initial(const unsigned int &length)
     emit SendProgress(1.0);
 }
 
-QString RSA_Encryption::EncodeMessage(const QString &message)
-{
+QString RSA_Encryption::EncodeMessage(const QString &message){
     QString result;
     std::string record = message.toStdString();
     std::string ret;
     emit SendProgress(0.0);
+    // 对明文进行加密
     for(auto x = 0;x < record.size();++x){
         std::bitset<8> trans(record[x]);
         BigInteger tar(trans.to_ulong());
@@ -50,12 +49,12 @@ QString RSA_Encryption::EncodeMessage(const QString &message)
     return result;
 }
 
-QString RSA_Encryption::DecodeMessage(const QString &message)
-{
+QString RSA_Encryption::DecodeMessage(const QString &message){
     QString result;
     QStringList textList = message.split(" ");
     std::string ret;
     emit SendProgress(0.0);
+    // 对密文进行解密
     for(auto x = 0;x < textList.size()-1;++x){
         std::string word = textList.at(x).toStdString();
         BigInteger trans(word);

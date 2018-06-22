@@ -234,14 +234,15 @@ QString AES::DecodeCBC(const QString &message)
     return result;
 }
 
-void AES::EncryPerGroup(AES::Byte target[16], AES::Word expansionKey[44])
-{
-    // at first, a word for a col
+void AES::EncryPerGroup(AES::Byte target[16], AES::Word expansionKey[44]){
     Word keyt[4];
+    // 密钥扩展
     for(int i=0; i<4; ++i)
         keyt[i] = expansionKey[i];
+    // 轮密钥加
     KeyRoundAdd(target,keyt);
 
+    // 字节代替、行以为、列混淆、轮密钥加
     for(int round=1; round< 10; ++round){
         MapToSboxMtx(target);
         RowsShift(target);
@@ -250,8 +251,7 @@ void AES::EncryPerGroup(AES::Byte target[16], AES::Word expansionKey[44])
             keyt[i] = expansionKey[4*round+i];
         KeyRoundAdd(target, keyt);
     }
-
-    // last round, DO NOT have MixCol
+    // 字节代替、行移位、轮密钥加
     MapToSboxMtx(target);
     RowsShift(target);
     for(int i=0; i<4; ++i)
@@ -259,13 +259,14 @@ void AES::EncryPerGroup(AES::Byte target[16], AES::Word expansionKey[44])
     KeyRoundAdd(target, keyt);
 }
 
-void AES::DecryPerGroup(AES::Byte target[16], AES::Word expansionKey[44])
-{
+void AES::DecryPerGroup(AES::Byte target[16], AES::Word expansionKey[44]){
     Word keyt[4];
+    // 密钥扩展
     for(int i=0; i<4; ++i)
         keyt[i] = expansionKey[40+i];
+    // 轮密钥加
     KeyRoundAdd(target, keyt);
-
+    // 与加密相反的顺序
     for(int round=9; round > 0; --round){
         RowsShiftInv(target);
         MapToSboxMtxInv(target);
@@ -274,7 +275,6 @@ void AES::DecryPerGroup(AES::Byte target[16], AES::Word expansionKey[44])
         KeyRoundAdd(target, keyt);
         ColumnsMixInv(target);
     }
-
     // last round, DO NOT have InvMixCol
     RowsShiftInv(target);
     MapToSboxMtxInv(target);
@@ -325,8 +325,7 @@ AES::Word AES::LeftShift(const AES::Word &target)
     return high | low;
 }
 
-AES::Word AES::MapToSboxKey(const AES::Word &target)
-{
+AES::Word AES::MapToSboxKey(const AES::Word &target){
     /**
      *  对输入word中的每一个字节进行S-盒映射
      */
@@ -343,8 +342,7 @@ AES::Word AES::MapToSboxKey(const AES::Word &target)
     return ret;
 }
 
-void AES::KeyExpansion(AES::Byte key[16], AES::Word w[44])
-{
+void AES::KeyExpansion(AES::Byte key[16], AES::Word w[44]){
     /**
      *  密钥扩展函数 - 对128位密钥进行扩展得到 w[44]
      */
@@ -385,8 +383,7 @@ void AES::MapToSboxMtx(AES::Byte mtx[16])
     }
 }
 
-void AES::RowsShift(AES::Byte mtx[16])
-{
+void AES::RowsShift(AES::Byte mtx[16]){
     /*
      *  行移位 - 按字节循环移位,第一行不变
      */
@@ -410,8 +407,7 @@ void AES::RowsShift(AES::Byte mtx[16])
     mtx[12] = temp;
 }
 
-AES::Byte AES::GFMultiply(AES::Byte a, AES::Byte b)
-{
+AES::Byte AES::GFMultiply(AES::Byte a, AES::Byte b){
     /*
      *  有限域上的乘法和加法 GF(2^8)
      */
@@ -431,8 +427,7 @@ AES::Byte AES::GFMultiply(AES::Byte a, AES::Byte b)
     return ret;
 }
 
-void AES::ColumnsMix(AES::Byte mtx[])
-{
+void AES::ColumnsMix(AES::Byte mtx[]){
     /*
      *  列混淆，矩阵乘法
      */
@@ -454,8 +449,7 @@ void AES::ColumnsMix(AES::Byte mtx[])
     }
 }
 
-void AES::KeyRoundAdd(AES::Byte mtx[16], AES::Word k[4])
-{
+void AES::KeyRoundAdd(AES::Byte mtx[16], AES::Word k[4]){
     /*
      *  轮密钥加变换 - 将每一列与扩展密钥进行异或
      */
@@ -473,8 +467,7 @@ void AES::KeyRoundAdd(AES::Byte mtx[16], AES::Word k[4])
     }
 }
 
-void AES::RowsShiftInv(AES::Byte mtx[16])
-{
+void AES::RowsShiftInv(AES::Byte mtx[16]){
     /*
      *  逆行变换 - 以字节为单位循环右移
      */
@@ -484,8 +477,7 @@ void AES::RowsShiftInv(AES::Byte mtx[16])
         mtx[i+4] = mtx[i+3];
     mtx[4] = temp;
     // 第三行循环右移两位
-    for(int i=0; i<2; ++i)
-    {
+    for(int i=0; i<2; ++i){
         temp = mtx[i+8];
         mtx[i+8] = mtx[i+10];
         mtx[i+10] = temp;
@@ -497,21 +489,18 @@ void AES::RowsShiftInv(AES::Byte mtx[16])
     mtx[15] = temp;
 }
 
-void AES::MapToSboxMtxInv(AES::Byte mtx[16])
-{
+void AES::MapToSboxMtxInv(AES::Byte mtx[16]){
     /*
      *  逆S盒变换
      */
-    for(int i=0; i<16; ++i)
-    {
+    for(int i=0; i<16; ++i){
         int row = mtx[i][7]*8 + mtx[i][6]*4 + mtx[i][5]*2 + mtx[i][4];
         int col = mtx[i][3]*8 + mtx[i][2]*4 + mtx[i][1]*2 + mtx[i][0];
         mtx[i] = AES_Operation::Inv_S_Box[row][col];
     }
 }
 
-void AES::ColumnsMixInv(AES::Byte mtx[])
-{
+void AES::ColumnsMixInv(AES::Byte mtx[]){
     /*
      * 逆向列混淆
      */

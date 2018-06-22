@@ -10,12 +10,12 @@ Hill::Hill()
 
 Hill::~Hill() {}
 
-QString Hill::EncodeMessage(const QString &message)
-{
+QString Hill::EncodeMessage(const QString &message){
     QString record = PreProcess(message);
     QString result;
     uint i1=0,i2=0,i3=0;
     uint size = record.size();
+    // 加密
     while(i1 < size){
         QChar p1,p2,p3;
         i2 = i1 + 1;

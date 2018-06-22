@@ -6,7 +6,7 @@ Vigenere::Vigenere()
     for(uint x = 0;x < str.size();++x){
         table[str[x]] = x;
     }
-    //初始化加密表
+    // 构造加密表
     for(uint x = 0;x < 26;++x){
         std::vector<QChar> record;
         for(uint y = 0;y < 26;++y){
@@ -18,11 +18,11 @@ Vigenere::Vigenere()
 
 Vigenere::~Vigenere() {}
 
-QString Vigenere::EncodeMessage(const QString &message)
-{
+QString Vigenere::EncodeMessage(const QString &message){
     QString result;
     QString record = message.toLower();
     int index = 0;
+    // 加密
     for(auto it = record.begin();it != record.end();++it){
         if(it->isLetter()){
             const std::vector<QChar> &tmp = encryp[key[index]];
@@ -34,10 +34,10 @@ QString Vigenere::EncodeMessage(const QString &message)
     return result;
 }
 
-QString Vigenere::DecodeMessage(const QString &message)
-{
+QString Vigenere::DecodeMessage(const QString &message){
     QString result;
     int index = 0;
+    // 解密
     for(auto it = message.begin();it != message.end();++it){
         if(it->isLetter()){
             const std::vector<QChar> &tmp = encryp[key[index]];
