@@ -9,19 +9,21 @@ class ConnectionThread : public QThread
 {
     Q_OBJECT
 public:
+    int id;
     int socketDescriptor;
 
     ConnectionThread(int socketDes, QObject *parent = nullptr);
     ~ConnectionThread();
     void run();
+    ConnectionSocket* getSocket();
 
 signals:
-    void revData(QString, QByteArray);
-    void sendDat(QByteArray data, int id);
-    void disconnectTCP(int );
+    void revData(ConnectionThread*, QString, QByteArray);
+    void sendDat(QByteArray data, int ids);
+    void disconnectTCP(ConnectionThread*, QString, int );
 
 private slots:
-    void sendData(QByteArray data, int id);
+    void sendData(QByteArray data, int ids);
     void recvData(QString, QByteArray);
     void disconnectToHost();
 

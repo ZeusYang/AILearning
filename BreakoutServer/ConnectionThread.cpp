@@ -2,7 +2,10 @@
 #include <QDebug>
 
 ConnectionThread::ConnectionThread(int socketDes, QObject *parent) :
-    QThread(parent), socketDescriptor(socketDes), socket(nullptr) {}
+    QThread(parent), socketDescriptor(socketDes), socket(nullptr)
+{
+    id = -1;
+}
 
 ConnectionThread::~ConnectionThread()
 {
@@ -14,7 +17,8 @@ ConnectionThread::~ConnectionThread()
 void ConnectionThread::run()
 {
     // 创建一个新的连接套接字
-    socket = new ConnectionSocket(socketDescriptor, 0);
+    if(!socket)
+        socket = new ConnectionSocket(socketDescriptor, 0);
 
     if (!socket->setSocketDescriptor(socketDescriptor)){
         qDebug() << "Create socket error!";
@@ -36,6 +40,13 @@ void ConnectionThread::run()
     exec();
 }
 
+ConnectionSocket *ConnectionThread::getSocket()
+{
+    if(!socket)
+        socket = new ConnectionSocket(socketDescriptor, 0);
+    return this->socket;
+}
+
 void ConnectionThread::sendData(QByteArray data, int id)
 {
     if (data == "") return ;
@@ -44,11 +55,12 @@ void ConnectionThread::sendData(QByteArray data, int id)
 
 void ConnectionThread::recvData(QString peerAddr, QByteArray data)
 {
-    emit revData(peerAddr, data);
+    emit revData(this, peerAddr, data);
 }
 
 void ConnectionThread::disconnectToHost()
 {
-    emit disconnectTCP(socketDescriptor);
+    QString address = socket->address;
+    emit disconnectTCP(this, address, socketDescriptor);
     socket->disconnectFromHost();
 }

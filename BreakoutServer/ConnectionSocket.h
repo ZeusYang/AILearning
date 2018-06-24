@@ -6,6 +6,7 @@ class ConnectionSocket : public QTcpSocket
 {
     Q_OBJECT
 public:
+    QString address;
     explicit ConnectionSocket(int socket, QObject *parent = nullptr);
 
 signals:

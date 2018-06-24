@@ -15,14 +15,16 @@ void Server::incomingConnection(int socketDescriptor){
 
     connect(thread, SIGNAL(started()),
             window, SLOT(showConnection()));
-    connect(thread, SIGNAL(disconnectTCP(int)),
-            window, SLOT(showDisconnection(int)));
-    connect(thread, SIGNAL(revData(QString, QByteArray)),
-            window, SLOT(revData(QString, QByteArray)));
+    connect(thread, SIGNAL(disconnectTCP(ConnectionThread*,QString,int)),
+            window, SLOT(showDisconnection(ConnectionThread*,QString,int)));
+    connect(thread, SIGNAL(revData(ConnectionThread*, QString, QByteArray)),
+            window, SLOT(revData(ConnectionThread*, QString, QByteArray)));
     connect(window, SIGNAL(sendData(QByteArray, int)),
             thread, SLOT(sendData(QByteArray, int)));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
 
     thread->start();
+    QString message = tr("One client is connecting...");
+    emit showMessage(message);
 }
 

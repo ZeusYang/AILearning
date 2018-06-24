@@ -25,5 +25,6 @@ void ConnectionSocket::recvData()
     // 获取ip地址
     QString temp = this->peerAddress().toString();
     peerAddr = temp.remove(0, 7);
+    address = peerAddr;
     emit revData(peerAddr, data);
 }
